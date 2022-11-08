@@ -1,0 +1,23 @@
+name: algo-v1
+channels:
+  - conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+
+dependencies:
+  - matplotlib
+  - numpy
+  - opencv=4.4
+  - pandas
+  - pillow
+  - python
+
+#- pip:
+#  - torch>=1.9.0
+#  - -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+#- pip:
+#  - -r file:requirements.txt

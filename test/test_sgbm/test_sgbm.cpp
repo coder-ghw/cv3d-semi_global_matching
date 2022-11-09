@@ -25,7 +25,7 @@ void test_sgbm() {
   sgm_option.num_paths = 8;
   // 候选视差范围
   sgm_option.min_disparity = 0;
-  sgm_option.max_disparity = 50;
+  sgm_option.max_disparity = 1000;
   // census窗口类型
   sgm_option.census_size = SemiGlobalMatching::Census5x5;
   // 一致性检查

@@ -47,16 +47,15 @@ void test_sgbm() {
 
   SemiGlobalMatching sgm;
 
-  std::chrono::steady_clock::time_point start;
-  time_start(start);
+  time_point start;
 
+  time_start(start);
   if (!sgm.Initialize(width, height, sgm_option)) {
     std::cout << "SGM初始化失败..." << std::endl;
   }
   time_end("sgbm initialize", start);
 
   time_start(start);
-
   if (!sgm.Match((float *)image_disparity.data, image_L.data, image_R.data)) {
     std::cout << "SGM匹配失败..." << std::endl;
   }

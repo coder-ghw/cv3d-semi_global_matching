@@ -10,6 +10,8 @@
 extern "C" {
 #endif
 
+typedef std::chrono::steady_clock::time_point time_point;
+
 inline void time_start(std::chrono::steady_clock::time_point &start) {
   start = std::chrono::steady_clock::now();
 }

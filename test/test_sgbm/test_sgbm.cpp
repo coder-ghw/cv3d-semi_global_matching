@@ -3,6 +3,7 @@
 #include "sgbm.h"
 #include "test_utils.h"
 #include "gtest/gtest.h"
+#include <chrono>
 #include <iostream>
 #include <opencv2/core/base.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -46,18 +47,20 @@ void test_sgbm() {
 
   SemiGlobalMatching sgm;
 
-  timer start, end;
-  TIME_START(start);
+  std::chrono::steady_clock::time_point start;
+  time_start(start);
+
   if (!sgm.Initialize(width, height, sgm_option)) {
     std::cout << "SGM初始化失败..." << std::endl;
   }
-  TIME_END("sgbm initialize", end, start);
+  time_end("sgbm initialize", start);
 
-  TIME_START(start);
+  time_start(start);
+
   if (!sgm.Match((float *)image_disparity.data, image_L.data, image_R.data)) {
     std::cout << "SGM匹配失败..." << std::endl;
   }
-  TIME_END("sgbm match", end, start);
+  time_end("sgbm match...", start);
   if (TEST_SGBM_LOG) {
     cv::Mat result = cv::Mat::zeros(height, width, CV_8UC1);
 

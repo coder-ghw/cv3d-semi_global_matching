@@ -1,36 +1,24 @@
 #ifndef _TEST_UTILS_H_
 #define _TEST_UTILS_H_
 
+#include <chrono>
 #include <random>
 #include <stdint.h>
-#include <sys/time.h>
+#include <string>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct timeval timer;
-#define TIME_START(start) gettimeofday(&start, 0);
+inline void time_start(std::chrono::steady_clock::time_point &start) {
+  start = std::chrono::steady_clock::now();
+}
 
-#define TIME_END(info, end, start)                                             \
-  gettimeofday(&end, 0);                                                       \
-  time_substract(&end, &start, &end);                                          \
-  printf("\033[1;33;41m%s:use time %d us\033[0m\n", info, (int)end.tv_usec);
-
-static inline int time_substract(struct timeval *result, struct timeval *begin,
-                                 struct timeval *end) {
-  if (begin->tv_sec > end->tv_sec)
-    return -1;
-  if ((begin->tv_sec == end->tv_sec) && (begin->tv_usec > end->tv_usec))
-    return -2;
-  result->tv_sec = (end->tv_sec - begin->tv_sec);
-  result->tv_usec = (end->tv_usec - begin->tv_usec);
-
-  if (result->tv_usec < 0) {
-    result->tv_sec--;
-    result->tv_usec += 1000000;
-  }
-  return 0;
+inline void time_end(const char *info,
+                     std::chrono::steady_clock::time_point &start) {
+  auto end = std::chrono::steady_clock::now();
+  auto tt = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  printf("\033[1;33;41m%s:use time %f ms\033[0m\n", info, tt.count() / 1.f);
 }
 
 uint8_t *create_bin_from_file(const char *file_path, size_t *size);

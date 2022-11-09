@@ -16,6 +16,7 @@ function(ADD_TEST_MODULE module_name test_file)
     target_link_libraries(UnitTest-${module_name}
         gtest
         gtest_main
+        pthread
         sgbm-static)
 
     target_compile_definitions(UnitTest-${module_name}

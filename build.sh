@@ -8,6 +8,7 @@ if [[ $1 > 0 ]]; then
   cmake -DCMAKE_BUILD_TYPE=Debug\
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON\
         -DEnableTest=ON\
+        -DGtestInstallPath=/home/guohw/data/projects/third_party/linux-x86_64/gtest-1.10.0-ef502364e45b4af7dd7e608b441fadef \
         -DOpencvInstallPath=/home/guohw/miniconda3/envs/algo-v1 ..
 
 else
@@ -15,3 +16,5 @@ else
 fi
 
 make -j8
+
+make test

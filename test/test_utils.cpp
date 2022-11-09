@@ -9,7 +9,9 @@ static int read_bin(const char file_path[], void *buffer, size_t size) {
     return -1;
   }
   fseek(fp, 0, SEEK_SET);
-  fread(buffer, size, 1, fp);
+  size_t sz = fread(buffer, size, 1, fp);
+  if (sz == 0)
+    return -1;
   fclose(fp);
   return 0;
 }

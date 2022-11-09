@@ -13,7 +13,7 @@ conda env create -f environment.yml
 ## How to use
 
 ```bash
-bash build.sh
+bash build.sh 1
 cd  build
 make test 
 make check

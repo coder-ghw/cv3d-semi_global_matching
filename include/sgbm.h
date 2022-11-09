@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <vector>
 
+constexpr auto Invalid_Float = std::numeric_limits<float>::infinity();
+
 class SemiGlobalMatching {
 public:
   SemiGlobalMatching();

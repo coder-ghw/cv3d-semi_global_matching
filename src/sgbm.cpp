@@ -16,8 +16,6 @@ using namespace std::chrono;
   }
 #endif
 
-constexpr auto Invalid_Float = std::numeric_limits<float>::infinity();
-
 SemiGlobalMatching::SemiGlobalMatching()
     : width_(0), height_(0), img_left_(nullptr), img_right_(nullptr),
       census_left_(nullptr), census_right_(nullptr), cost_init_(nullptr),

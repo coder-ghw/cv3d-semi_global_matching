@@ -1,6 +1,6 @@
 #include "image_utils.h"
 #include "opencv2/opencv.hpp"
-#include "sgbm.h"
+#include "sgm.h"
 #include "test_utils.h"
 #include "gtest/gtest.h"
 #include <chrono>
@@ -10,12 +10,12 @@
 #include <stdio.h>
 #include <string>
 
-#define TEST_SGBM_LOG (1)
+#define TEST_SGM_LOG (1)
 
-void test_sgbm() {
-  cv::Mat image_L_color = cv::imread(TEST_SGBM_FILE_IN_L, cv::IMREAD_UNCHANGED);
-  cv::Mat image_L = cv::imread(TEST_SGBM_FILE_IN_L, cv::IMREAD_GRAYSCALE);
-  cv::Mat image_R = cv::imread(TEST_SGBM_FILE_IN_R, cv::IMREAD_GRAYSCALE);
+void test_sgm() {
+  cv::Mat image_L_color = cv::imread(TEST_SGM_FILE_IN_L, cv::IMREAD_UNCHANGED);
+  cv::Mat image_L = cv::imread(TEST_SGM_FILE_IN_L, cv::IMREAD_GRAYSCALE);
+  cv::Mat image_R = cv::imread(TEST_SGM_FILE_IN_R, cv::IMREAD_GRAYSCALE);
   int width = image_L.cols;
   int height = image_L.rows;
   cv::Mat image_disparity(height, width, CV_32FC1);
@@ -47,7 +47,7 @@ void test_sgbm() {
 
   SemiGlobalMatching sgm;
 
-  time_point start;
+  TimePoint start;
 
   time_start(start);
   if (!sgm.Initialize(width, height, sgm_option)) {
@@ -60,7 +60,7 @@ void test_sgbm() {
     std::cout << "SGM匹配失败..." << std::endl;
   }
   time_end("sgbm match...", start);
-  if (TEST_SGBM_LOG) {
+  if (TEST_SGM_LOG) {
     cv::Mat result = cv::Mat::zeros(height, width, CV_8UC1);
 
     cv::String file_result =
@@ -90,10 +90,10 @@ void test_sgbm() {
   }
 }
 
-TEST(test_sgbm, test_normal) {
+TEST(test_sgm, test_normal) {
   algo_trace_prepare(TEST_TRACE_DIR);
   // test 1
-  test_sgbm();
+  test_sgm();
 
   // test 2
 

@@ -209,8 +209,8 @@ void CostAggregateLeftRight(const uint8_t *img_data, const int &width,
       for (int d = 0; d < disp_range; d++) {
         // Lr(p,d) = C(p,d) + min( Lr(p-r,d), Lr(p-r,d-1) + P1, Lr(p-r,d+1) +
         // P1, min(Lr(p-r))+P2 ) - min(Lr(p-r))
-        const uint8_t cost = cost_init_row[d];
-        const uint16_t l1 = cost_last_path[d + 1];
+        const uint8_t cost = cost_init_row[d]; // 下标 +1 因为防溢出
+        const uint16_t l1 = cost_last_path[d + 1]; //这里初始化也是初始代价值
         const uint16_t l2 = cost_last_path[d] + P1;
         const uint16_t l3 = cost_last_path[d + 2] + P1;
         const uint16_t l4 = mincost_last_path +
@@ -225,7 +225,7 @@ void CostAggregateLeftRight(const uint8_t *img_data, const int &width,
         min_cost = std::min(min_cost, cost_s);
       }
 
-      // 重置上个像素的最小代价值和代价数组
+      // Update 重置上个像素的最小代价值和代价数组
       mincost_last_path = min_cost;
       memcpy(&cost_last_path[1], cost_aggr_row, disp_range * sizeof(uint8_t));
 
@@ -707,7 +707,9 @@ void RemoveSpeckles(float *disparity_map, const int &width, const int &height,
               }
             }
           }
+          // end 8邻域遍历
         }
+        // end 种子点生长
         cur = next;
       } while (next < vec.size());
 

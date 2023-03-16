@@ -9,12 +9,12 @@ if [[ $1 > 0 ]]; then
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON\
         -DEnableTest=ON\
         -DGtestInstallPath=/home/guohw/data/projects/third_party/linux-x86_64/gtest-1.10.0-ef502364e45b4af7dd7e608b441fadef \
-        -DOpencvInstallPath=/home/guohw/miniconda3/envs/algo-v1 ..
+        -DOpencvInstallPath=/home/guohw/miniconda3/envs/algo-v1 .. || exit 1
 
 else
   cd build
 fi
 
-make -j8
+make -j8 || exit 1
 
 make test

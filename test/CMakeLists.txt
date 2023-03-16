@@ -1,2 +1,2 @@
 # add testCase
-add_subdirectory(test_sgbm)
+add_subdirectory(test_sgm)

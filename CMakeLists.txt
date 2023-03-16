@@ -30,23 +30,23 @@ endif()
 include_directories(/usr/include/eigen3)
 
 # ############################ build algo obj ###########################
-add_library(sgbm-objs OBJECT
+add_library(sgm-objs OBJECT
   ${PROJECT_SOURCE_DIR}/src/image_utils.cpp
-  ${PROJECT_SOURCE_DIR}/src/sgbm.cpp
+  ${PROJECT_SOURCE_DIR}/src/sgm.cpp
 )
 
-target_include_directories(sgbm-objs
+target_include_directories(sgm-objs
   PUBLIC ${PROJECT_SOURCE_DIR}/include
   PUBLIC ${PROJECT_SOURCE_DIR}/src
   ${HALIDE_INC})
 
 # ############################ build algo static lib ###########################
-add_library(sgbm-static STATIC)
+add_library(sgm-static STATIC)
 
-target_link_libraries(sgbm-static sgbm-objs ${OpenCV_LIBS})
+target_link_libraries(sgm-static sgm-objs ${OpenCV_LIBS})
 
-set_target_properties(sgbm-static PROPERTIES OUTPUT_NAME "sgbm-static")
-set_target_properties(sgbm-static PROPERTIES PREFIX "")
+set_target_properties(sgm-static PROPERTIES OUTPUT_NAME "sgm-static")
+set_target_properties(sgm-static PROPERTIES PREFIX "")
 
 # ############################### test ###############################
 

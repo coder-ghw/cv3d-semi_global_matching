@@ -2,13 +2,27 @@
 #define INCLUDED_IMAGE_UTILS_H
 
 #include "opencv2/opencv.hpp"
+#include <chrono>
 #include <string>
 
 using namespace std;
 
+typedef std::chrono::steady_clock::time_point TimePoint;
+
 void algo_trace_prepare(const char *debug_file);
 
 void algo_trace(cv::Mat &img, string trace_name);
+
+inline void time_start(std::chrono::steady_clock::time_point &start) {
+  start = std::chrono::steady_clock::now();
+}
+
+inline void time_end(const char *info,
+                     std::chrono::steady_clock::time_point &start) {
+  auto end = std::chrono::steady_clock::now();
+  auto tt = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+  printf("\033[1;33;41m%s:use time %f ms\033[0m\n", info, tt.count() / 1.f);
+}
 
 //······ census工具集
 // census变换

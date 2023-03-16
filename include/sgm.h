@@ -1,5 +1,5 @@
-#ifndef INCLUDED_SGBM_H
-#define INCLUDED_SGBM_H
+#ifndef INCLUDED_SGM_H
+#define INCLUDED_SGM_H
 
 #include "opencv2/opencv.hpp"
 #include <stdint.h>

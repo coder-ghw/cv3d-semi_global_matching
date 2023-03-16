@@ -17,7 +17,7 @@ function(ADD_TEST_MODULE module_name test_file)
         gtest
         gtest_main
         pthread
-        sgbm-static)
+        sgm-static)
 
     target_compile_definitions(UnitTest-${module_name}
         PUBLIC -DTEST_TRACE_DIR=\"${CMAKE_BINARY_DIR}/debug_output/\"

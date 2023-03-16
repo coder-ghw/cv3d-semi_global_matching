@@ -1,4 +1,4 @@
-#include "sgbm.h"
+#include "sgm.h"
 #include "image_utils.h"
 #include <algorithm>
 #include <cassert>
@@ -31,8 +31,7 @@ SemiGlobalMatching::~SemiGlobalMatching() {
 
 bool SemiGlobalMatching::Initialize(const int &width, const int &height,
                                     const SGMOption &option) {
-  // ··· 赋值
-  // 影像尺寸
+  // image size
   width_ = width;
   height_ = height;
   // SGM参数
@@ -42,9 +41,8 @@ bool SemiGlobalMatching::Initialize(const int &width, const int &height,
     return false;
   }
 
-  //··· 开辟内存空间
-
   // census值（左右影像）
+  // 根据 条件判断最小的存储范围 优化内存
   const int img_size = width * height;
   if (option.census_size == Census5x5) {
     census_left_ = new uint32_t[img_size]();
@@ -113,34 +111,17 @@ bool SemiGlobalMatching::Match(float *disp_left, const uint8_t *img_left,
   img_left_ = img_left;
   img_right_ = img_right;
 
-  auto start = std::chrono::steady_clock::now();
-
   // census变换
   CensusTransform();
 
   // 代价计算
   ComputeCost();
 
-  auto end = steady_clock::now();
-  auto tt = duration_cast<milliseconds>(end - start);
-  printf("computing cost! timing :	%lf s\n", tt.count() / 1000.0);
-  start = steady_clock::now();
-
   // 代价聚合
   CostAggregation();
 
-  end = steady_clock::now();
-  tt = duration_cast<milliseconds>(end - start);
-  printf("cost aggregating! timing :	%lf s\n", tt.count() / 1000.0);
-  start = steady_clock::now();
-
   // 视差计算
   ComputeDisparity();
-
-  end = steady_clock::now();
-  tt = duration_cast<milliseconds>(end - start);
-  printf("computing disparities! timing :	%lf s\n", tt.count() / 1000.0);
-  start = steady_clock::now();
 
   // 左右一致性检查
   if (option_.is_check_lr) {
@@ -151,10 +132,13 @@ bool SemiGlobalMatching::Match(float *disp_left, const uint8_t *img_left,
   }
 
   // 移除小连通区
+  TimePoint tp;
+  time_start(tp);
   if (option_.is_remove_speckles) {
     RemoveSpeckles(disp_left_, width_, height_, 1, option_.min_speckle_aera,
                    Invalid_Float);
   }
+  time_end("RemoveSpeckles", tp);
 
   // 视差填充
   if (option_.is_fill_holes) {
@@ -163,11 +147,6 @@ bool SemiGlobalMatching::Match(float *disp_left, const uint8_t *img_left,
 
   // 中值滤波
   MedianFilter(disp_left_, disp_left_, width_, height_, 3);
-
-  end = steady_clock::now();
-  tt = duration_cast<milliseconds>(end - start);
-  printf("postprocessing! timing :        %lf s\n", tt.count() / 1000.0);
-  start = steady_clock::now();
 
   // 输出视差图
   memcpy(disp_left, disp_left_, height_ * width_ * sizeof(float));
@@ -247,7 +226,7 @@ void SemiGlobalMatching::CostAggregation() const {
   // 1、左->右/右->左
   // 2、上->下/下->上
   // 3、左上->右下/右下->左上
-  // 4、右上->左上/左下->右上
+  // 4、右上->左下/左下->右上
   //
   // ↘ ↓ ↙   5  3  7
   // →    ←	 1    2
